@@ -13,7 +13,7 @@ interface HomeProps {
   onDelete: (projectId: string) => void;
 }
 
-const headline = "드림사피가 당신의 블로그를 완성해드립니다";
+const headline = "자료만 넣으면, 블로그는 드림사피가 완성합니다";
 
 const partnerLabels: Record<PartnerKey, string> = {
   sodi: "소디",
@@ -53,23 +53,27 @@ export default function Home({ projects, onCreate, onOpen, onDelete }: HomeProps
       <section className="hero">
         <div className="home-brand-host">
           <BrandLogo variant="korean" className="home-brand-logo" />
-          <BrandMascot size="lg" className="home-brand-mascot" />
         </div>
 
         <div className="hero-copy">
-          <p className="eyebrow">DreamSapi Rebuild Studio</p>
-          <h1 className="hero-typing" aria-label={headline}>
-            <span>{headline}</span>
-          </h1>
+          <div className="hero-title-lockup">
+            <BrandMascot size="lg" className="home-brand-mascot" />
+            <div className="hero-title-text">
+              <p className="eyebrow">DreamSapi Rebuild Studio</p>
+              <h1 className="hero-typing" aria-label={headline}>
+                <span>{headline}</span>
+              </h1>
+            </div>
+          </div>
           <p className="hero-lead">
-            모든 자료를 그대로 넣어 보세요.<br />
-            드림사피 파트너들이 중요한 내용은 살리고,<br />
-            당신만의 글로 재탄생 시켜드립니다.
+            강의자료, 스크립트, 메모를 그대로 붙여넣으세요.<br />
+            중요한 내용은 놓치지 않고 살리고,<br />
+            블로그 글감부터 발행 전 세팅까지 차근차근 정리해드립니다.
           </p>
           <div className="hero-proof">
-            <span>자료 하나로 글감 5개</span>
-            <span>요약보다 풍부하게</span>
-            <span>선택한 글은 끝까지 완성</span>
+            <span>글감 5개 제안</span>
+            <span>원자료 디테일 보존</span>
+            <span>발행 전 세팅까지</span>
           </div>
           <button className="primary big hero-cta" onClick={onCreate}>새 작업 시작</button>
         </div>
