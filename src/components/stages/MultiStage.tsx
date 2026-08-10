@@ -1,4 +1,4 @@
-import { useState } from "react";
+﻿import { useState } from "react";
 import type { RebuilderProject } from "../../types";
 import PartnerHero from "../PartnerHero";
 import type { CharacterState } from "../../data/characters";
@@ -61,16 +61,16 @@ export default function MultiStage({ project, onGenerate, onPatchMulti, onSaveMu
       <div className="row-actions workflow-actions">
         <div className="workflow-copy-group">
           <button className="secondary" onClick={copyPackage}>자료 복사</button>
-          <span className="input-copy-note">복사 내용 · 글+이미지</span>
+          <span className="input-copy-note">복사 내용 · 블로그 글</span>
         </div>
-        <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75adae31f88191bfaf0ba76b5eb957-meoltir" target="_blank">멀티R GPT 열기</a>
-        <button className="primary" onClick={onSaveMulti} disabled={!topic.multiR.displayResult.trim() && !topic.multiR.outputs}>결과 저장</button>
+        <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75adae31f88191bfaf0ba76b5eb957-meoltir" target="_blank">GPT 열기</a>
+        <button className="primary" onClick={onSaveMulti} disabled={!topic.multiR.displayResult.trim() && !topic.multiR.outputs}>이미지 짜러 GO</button>
         <button className="secondary" onClick={onSkip}>SNS 건너뛰기</button>
         <button className="assistive-action" onClick={() => onGenerate(selected)} disabled={!selected.length}>앱에서 임시 초안</button>
       </div>
 
       <GptWorkflowNote
-        copyText="블로그 글과 이미지 구성을 함께 복사합니다."
+        copyText="완성된 블로그 글을 복사합니다."
         gptText="멀티R GPT가 선택한 SNS 형식으로 바꿉니다."
         pasteText="SNS 결과 전체를 붙여넣고 저장합니다."
       />
@@ -91,3 +91,4 @@ function topicLabel(id: string) {
   const number = Number(id.replace(/\D/g, ""));
   return Number.isFinite(number) && number > 0 ? `글감 ${number}` : "글감";
 }
+

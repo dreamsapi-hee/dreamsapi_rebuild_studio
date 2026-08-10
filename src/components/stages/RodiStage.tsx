@@ -1,4 +1,4 @@
-import type { RebuilderProject } from "../../types";
+﻿import type { RebuilderProject } from "../../types";
 import PartnerHero from "../PartnerHero";
 import type { CharacterState } from "../../data/characters";
 import CollapsibleTextarea from "../CollapsibleTextarea";
@@ -35,8 +35,8 @@ export default function RodiStage({ project, onGenerate, onPatchRodi, onConfirm,
           <button className="secondary" onClick={copyPackage}>자료 복사</button>
           <span className="input-copy-note">복사 내용 · 글감+분석</span>
         </div>
-        <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75ac82d7e48191ae5238d1471b7bd4-rodir" target="_blank">로디R GPT 열기</a>
-        <button className="primary" onClick={onConfirm} disabled={!topic.rodiR.displayResult.trim()}>결과 저장</button>
+        <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75ac82d7e48191ae5238d1471b7bd4-rodir" target="_blank">GPT 열기</a>
+        <button className="primary" onClick={onConfirm} disabled={!topic.rodiR.displayResult.trim()}>글 쓰러 GO</button>
         <button className="assistive-action" onClick={onGenerate}>앱에서 임시 초안</button>
       </div>
 
@@ -62,3 +62,4 @@ function topicLabel(id: string) {
   const number = Number(id.replace(/\D/g, ""));
   return Number.isFinite(number) && number > 0 ? `글감 ${number}` : "글감";
 }
+

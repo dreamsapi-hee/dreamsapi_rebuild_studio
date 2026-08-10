@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react";
+﻿import { useMemo, useState } from "react";
 import type { RebuilderProject } from "../../types";
 import PartnerHero from "../PartnerHero";
 import type { CharacterState } from "../../data/characters";
@@ -65,8 +65,8 @@ export default function ChekiStage({ project, onGenerate, onPatchCheki, onSaveCh
           <button className="secondary" onClick={copyPackage}>자료 복사</button>
           <span className="input-copy-note">복사 내용 · 최종 점검</span>
         </div>
-        <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75adf228748191a0aeff895d93bb3c-cekir" target="_blank">체키R GPT 열기</a>
-        <button className="primary" onClick={onSaveCheki} disabled={!topic.chekiR.displayResult.trim() && !topic.chekiR.finalPackage}>결과 저장</button>
+        <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75adf228748191a0aeff895d93bb3c-cekir" target="_blank">GPT 열기</a>
+        <button className="primary" onClick={onSaveCheki} disabled={!topic.chekiR.displayResult.trim() && !topic.chekiR.finalPackage}>발행본으로 정리</button>
         <button className="assistive-action" onClick={onGenerate}>앱에서 임시 초안</button>
       </div>
 
@@ -100,7 +100,7 @@ export default function ChekiStage({ project, onGenerate, onPatchCheki, onSaveCh
           </button>
         </div>
 
-        <button className="secondary back-to-topic-button" onClick={onBackToTopics}>다른 글감 선택</button>
+        <button className="secondary back-to-topic-button" onClick={onBackToTopics}>다음 글감 고르러 GO</button>
       </section>
 
       {topic.chekiR.finalPackage?.naverPublishKit?.publishSettings && (
@@ -152,3 +152,4 @@ function topicLabel(id: string) {
   const number = Number(id.replace(/\D/g, ""));
   return Number.isFinite(number) && number > 0 ? `글감 ${number}` : "글감";
 }
+

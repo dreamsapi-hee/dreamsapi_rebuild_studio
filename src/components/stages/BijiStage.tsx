@@ -1,4 +1,4 @@
-import type { RebuilderProject } from "../../types";
+﻿import type { RebuilderProject } from "../../types";
 import PartnerHero from "../PartnerHero";
 import type { CharacterState } from "../../data/characters";
 import CollapsibleTextarea from "../CollapsibleTextarea";
@@ -27,21 +27,21 @@ export default function BijiStage({ project, onGenerate, onPatchBiji, onConfirm,
       <PartnerHero partner="bijiR" state={characterState} />
       <h1>{topicLabel(topic.topicId)} · 이미지 구성 정하기</h1>
       <p className="muted">
-        완성된 블로그 글을 비지R GPT에 보내고, 이미지 구성 결과 전체를 아래에 붙여넣으세요.
+        블로그 글과 SNS 결과를 비지R GPT에 보내고, 이미지 구성 결과 전체를 아래에 붙여넣으세요.
       </p>
 
       <div className="row-actions workflow-actions">
         <div className="workflow-copy-group">
           <button className="secondary" onClick={copyPackage}>자료 복사</button>
-          <span className="input-copy-note">복사 내용 · 블로그 글</span>
+          <span className="input-copy-note">복사 내용 · 글+SNS</span>
         </div>
-        <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75ad638858819198c6f49b4852d6fb-bijir" target="_blank">비지R GPT 열기</a>
-        <button className="primary" onClick={onConfirm} disabled={!topic.bijiR.displayResult.trim() && !topic.bijiR.visuals?.length}>결과 저장</button>
+        <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75ad638858819198c6f49b4852d6fb-bijir" target="_blank">GPT 열기</a>
+        <button className="primary" onClick={onConfirm} disabled={!topic.bijiR.displayResult.trim() && !topic.bijiR.visuals?.length}>최종 점검하러 GO</button>
         <button className="assistive-action" onClick={onGenerate}>앱에서 임시 초안</button>
       </div>
 
       <GptWorkflowNote
-        copyText="완성된 블로그 글을 복사합니다."
+        copyText="블로그 글과 SNS 결과를 복사합니다."
         gptText="비지R GPT가 필요한 이미지 구성을 제안합니다."
         pasteText="이미지 구성 결과 전체를 붙여넣고 저장합니다."
       />
@@ -78,3 +78,4 @@ function topicLabel(id: string) {
   const number = Number(id.replace(/\D/g, ""));
   return Number.isFinite(number) && number > 0 ? `글감 ${number}` : "글감";
 }
+

@@ -1,4 +1,4 @@
-import type { RebuilderProject } from "../../types";
+﻿import type { RebuilderProject } from "../../types";
 import PartnerHero from "../PartnerHero";
 import type { CharacterState } from "../../data/characters";
 import CollapsibleTextarea from "../CollapsibleTextarea";
@@ -33,8 +33,8 @@ export default function SodiStage({ project, onGenerate, onConfirm, onPatchSodi,
           <button className="secondary" onClick={copyPackage}>자료 복사</button>
           <span className="input-copy-note">복사 내용 · 원자료 전체</span>
         </div>
-        <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75aadea8848191a646132ce53c5c89-sodi" target="_blank">소디 GPT 열기</a>
-        <button className="primary" onClick={onConfirm} disabled={!project.sodi.displayResult.trim() && !project.sodi.sourceMap}>결과 저장</button>
+        <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75aadea8848191a646132ce53c5c89-sodi" target="_blank">GPT 열기</a>
+        <button className="primary" onClick={onConfirm} disabled={!project.sodi.displayResult.trim() && !project.sodi.sourceMap}>글감 찾으러 GO</button>
         <button className="assistive-action" onClick={onGenerate}>앱에서 임시 초안</button>
       </div>
 
@@ -67,3 +67,4 @@ export default function SodiStage({ project, onGenerate, onConfirm, onPatchSodi,
     </section>
   );
 }
+
