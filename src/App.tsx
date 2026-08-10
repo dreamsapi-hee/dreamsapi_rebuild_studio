@@ -11,7 +11,7 @@ import MultiStage from "./components/stages/MultiStage";
 import ChekiStage from "./components/stages/ChekiStage";
 import { createPartnerResult, createProject, nowIso } from "./data/defaults";
 import { deleteProject, getStorageHealth, loadProjects, setActiveProjectId, upsertProject } from "./data/storage";
-import type { PartnerKey, RebuilderProject } from "./types";
+import type { PartnerKey, RebuilderProject, TopicStatus } from "./types";
 import { getPartnerCharacterStatuses } from "./data/partnerStatus";
 import {
   applyArticleDraft,
@@ -85,11 +85,12 @@ export default function App() {
           setProject(next);
           setProjects(upsertProject(next));
         }}
-        onOpen={(projectId) => {
+        onOpen={(projectId, topicId) => {
           const found = projects.find((item) => item.projectId === projectId);
           if (found) {
+            const topic = topicId ? found.topics[topicId] : null;
             setActiveProjectId(projectId);
-            setProject(found);
+            setProject(topic ? { ...found, currentTopicId: topicId ?? null, currentPartner: getPartnerForTopicStatus(topic.status) } : found);
             setShowSourceManager(false);
           }
         }}
@@ -155,7 +156,7 @@ export default function App() {
 
   const confirmArticle = () => {
     if (!currentTopic || !shouldContinueWithWarnings("라이R 결과 확인", checkWriteResult(currentTopic.writeR.displayResult))) return;
-    updateCurrentTopic(confirmArticleTopic, "bijiR");
+    updateCurrentTopic(confirmArticleTopic, "multiR");
   };
 
   const generateVisuals = () => {
@@ -165,16 +166,16 @@ export default function App() {
 
   const confirmBiji = () => {
     if (!currentTopic || !shouldContinueWithWarnings("비지R 결과 확인", checkBijiResult(currentTopic.bijiR.displayResult))) return;
-    updateCurrentTopic(confirmBijiTopic, "multiR");
+    updateCurrentTopic(confirmBijiTopic, "chekiR");
   };
 
   const generateMulti = (platforms: string[]) => {
-    updateCurrentTopic((topic) => applyMultiDraft(topic, platforms), "chekiR");
+    updateCurrentTopic((topic) => applyMultiDraft(topic, platforms), "bijiR");
   };
 
   const saveMultiResult = () => {
     if (!currentTopic || !shouldContinueWithWarnings("멀티R 결과 확인", checkMultiResult(currentTopic.multiR.displayResult))) return;
-    updateCurrentTopic(saveMultiTopic, "chekiR");
+    updateCurrentTopic(saveMultiTopic, "bijiR");
   };
 
   const generateCheki = () => {
@@ -255,10 +256,19 @@ export default function App() {
           {project.currentPartner === "rodiR" && <RodiStage project={project} onGenerate={() => runPartnerAction("rodiR", generateRodi)} onPatchRodi={(displayResult) => updateCurrentTopic((topic) => ({ ...topic, rodiR: { ...topic.rodiR, displayResult, status: "saved" } }))} onConfirm={confirmRodi} characterState={characterStatuses!.rodiR} />}
           {project.currentPartner === "writeR" && <WriteStage project={project} onSettings={(settings) => commit({ ...project, settings })} onGenerate={() => runPartnerAction("writeR", generateArticle)} onPatchWrite={(displayResult) => updateCurrentTopic((topic) => ({ ...topic, writeR: { ...topic.writeR, displayResult, status: "saved", article: topic.writeR.article ? { ...topic.writeR.article, bodyMarkdown: displayResult } : undefined } }))} onConfirm={confirmArticle} characterState={characterStatuses!.writeR} />}
           {project.currentPartner === "bijiR" && <BijiStage project={project} onGenerate={() => runPartnerAction("bijiR", generateVisuals)} onPatchBiji={(displayResult) => updateCurrentTopic((topic) => ({ ...topic, bijiR: { ...topic.bijiR, displayResult, status: "saved" } }))} onConfirm={confirmBiji} characterState={characterStatuses!.bijiR} />}
-          {project.currentPartner === "multiR" && <MultiStage project={project} onGenerate={(platforms) => runPartnerAction("multiR", () => generateMulti(platforms))} onPatchMulti={(displayResult) => updateCurrentTopic((topic) => ({ ...topic, multiR: { ...topic.multiR, displayResult, status: "saved" } }))} onSaveMulti={saveMultiResult} onSkip={() => updateCurrentTopic((topic) => ({ ...topic, multiR: { ...createPartnerResult("skipped"), confirmedAt: nowIso() } }), "chekiR")} characterState={characterStatuses!.multiR} />}
+          {project.currentPartner === "multiR" && <MultiStage project={project} onGenerate={(platforms) => runPartnerAction("multiR", () => generateMulti(platforms))} onPatchMulti={(displayResult) => updateCurrentTopic((topic) => ({ ...topic, multiR: { ...topic.multiR, displayResult, status: "saved" } }))} onSaveMulti={saveMultiResult} onSkip={() => updateCurrentTopic((topic) => ({ ...topic, status: "multi_done", multiR: { ...createPartnerResult("skipped"), confirmedAt: nowIso() } }), "bijiR")} characterState={characterStatuses!.multiR} />}
           {project.currentPartner === "chekiR" && <ChekiStage project={project} onGenerate={() => runPartnerAction("chekiR", generateCheki)} onPatchCheki={(displayResult) => updateCurrentTopic((topic) => ({ ...topic, chekiR: { ...topic.chekiR, displayResult, status: "saved" } }))} onSaveCheki={saveChekiResult} onComplete={() => updateCurrentTopic((topic) => ({ ...topic, status: "final_done", completed: true }), "chekiR")} onBackToTopics={() => commit({ ...project, currentPartner: "kidiR" })} characterState={characterStatuses!.chekiR} />}
         </>
       )}
     </Layout>
   );
+}
+
+function getPartnerForTopicStatus(status: TopicStatus): PartnerKey {
+  if (status === "selected") return "rodiR";
+  if (status === "structure_done" || status === "writing") return "writeR";
+  if (status === "article_done") return "multiR";
+  if (status === "multi_done") return "bijiR";
+  if (status === "visual_done" || status === "final_done") return "chekiR";
+  return "kidiR";
 }
