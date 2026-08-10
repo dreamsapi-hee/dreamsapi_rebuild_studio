@@ -127,8 +127,15 @@ export default function ProjectSetup({ project, onUpdate, onDone }: ProjectSetup
   return (
     <section className="stage-card setup-card">
       <div className="setup-intro">
-        <p className="eyebrow">{project.masterSources.length ? "원자료 관리" : "자료 보관"}</p>
-        <h1>{project.masterSources.length ? "원자료를 추가하거나 이번 분석에서 제외할 수 있습니다" : "원자료 저장 후 소디 GPT로 이동합니다"}</h1>
+        <div className="setup-step-badge">
+          <span>{project.masterSources.length ? "자료 보관소" : "시작 준비"}</span>
+        </div>
+        <div className="setup-intro-copy">
+          <h1>{project.masterSources.length ? "분석할 자료를 고르고 정리합니다" : "블로그로 바꿀 원자료를 넣어주세요"}</h1>
+          <p className="muted setup-subcopy">
+            저장한 자료는 다음 단계에서 소디 GPT로 보냅니다.
+          </p>
+        </div>
       </div>
 
       <label>작업명</label>
@@ -174,7 +181,7 @@ export default function ProjectSetup({ project, onUpdate, onDone }: ProjectSetup
 
       {onDone && (
         <div className="row-actions">
-          <button className="primary" onClick={onDone} disabled={activeCount === 0}>자료 분석하러 GO</button>
+          <button className="primary" onClick={onDone} disabled={activeCount === 0}>저장 끝내고 소디로 GO</button>
         </div>
       )}
     </section>

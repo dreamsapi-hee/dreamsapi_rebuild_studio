@@ -38,10 +38,11 @@ interface LayoutProps {
   onManageSources: () => void;
   storageHealth: StorageHealth;
   characterStatuses: Record<PartnerKey, CharacterState>;
+  isSourceSetup?: boolean;
   children: ReactNode;
 }
 
-export default function Layout({ project, onPartnerChange, onTopicChange, onExportJson, onImportJson, onHome, onManageSources, storageHealth, characterStatuses, children }: LayoutProps) {
+export default function Layout({ project, onPartnerChange, onTopicChange, onExportJson, onImportJson, onHome, onManageSources, storageHealth, characterStatuses, isSourceSetup = false, children }: LayoutProps) {
   const [leftCompact, setLeftCompact] = useState(false);
   const currentTopic = project.currentTopicId ? project.topics[project.currentTopicId] : null;
   const completed = project.selectedTopicIds.filter((id) => project.topics[id]?.status === "final_done").length;
@@ -63,7 +64,7 @@ export default function Layout({ project, onPartnerChange, onTopicChange, onExpo
           {partnerOrder.map((partner) => (
             <button
               key={partner}
-              className={`${project.currentPartner === partner ? "active" : ""} ${characterStatuses[partner] === "complete" ? "done" : ""}`}
+              className={`${!isSourceSetup && project.currentPartner === partner ? "active" : ""} ${characterStatuses[partner] === "complete" ? "done" : ""}`}
               style={{ "--character-color": partnerCharacters[partner].color } as CSSProperties}
               onClick={() => onPartnerChange(partner)}
             >
@@ -108,25 +109,32 @@ export default function Layout({ project, onPartnerChange, onTopicChange, onExpo
         </section>
 
         <section className="panel-card current-status-card priority-panel-card">
-          <p className="eyebrow">다음 작업</p>
+          <p className="eyebrow">작업 안내</p>
           <div className="current-partner-line">
-            <PartnerAvatar partner={project.currentPartner} size="sm" imageRole="default" />
+            {isSourceSetup ? <BrandMascot size="sm" /> : <PartnerAvatar partner={project.currentPartner} size="sm" imageRole="default" />}
             <div>
-              <span>현재 위치</span>
-              <h3>{partnerLabels[project.currentPartner]}</h3>
+              <span>{isSourceSetup ? "현재 단계" : "현재 파트너"}</span>
+              <h3>{isSourceSetup ? "시작 준비" : partnerLabels[project.currentPartner]}</h3>
             </div>
           </div>
-          <p className="current-topic-brief">{currentTopic ? `${topicLabel(currentTopic.topicId)} · ${currentTopic.finalTitle}` : "글감 미선택"}</p>
-          <div className="next-action-box">
-            <strong>{next.title}</strong>
-            <span>{next.description}</span>
-            <button
-              className="primary next-action-button"
-              onClick={() => next.kind === "sources" ? onManageSources() : onPartnerChange(next.partner)}
-            >
-              {next.button}
-            </button>
-          </div>
+          <p className="current-topic-brief">{isSourceSetup ? "원자료를 먼저 저장하는 화면입니다." : currentTopic ? `${topicLabel(currentTopic.topicId)} · ${currentTopic.finalTitle}` : "글감 미선택"}</p>
+          {isSourceSetup ? (
+            <div className="next-action-box passive-next-action">
+              <strong>해야 할 일</strong>
+              <span>원문을 붙여넣고 자료 저장을 누르세요. 저장 후 소디로 이동합니다.</span>
+            </div>
+          ) : (
+            <div className="next-action-box">
+              <strong>{next.title}</strong>
+              <span>{next.description}</span>
+              <button
+                className="primary next-action-button"
+                onClick={() => next.kind === "sources" ? onManageSources() : onPartnerChange(next.partner)}
+              >
+                {next.button}
+              </button>
+            </div>
+          )}
         </section>
 
         <section className="panel-card selected-topics-card">
