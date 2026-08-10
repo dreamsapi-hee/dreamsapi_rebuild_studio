@@ -9,7 +9,7 @@ import BrandLogo from "./BrandLogo";
 interface HomeProps {
   projects: RebuilderProject[];
   onCreate: () => void;
-  onOpen: (projectId: string) => void;
+  onOpen: (projectId: string, topicId?: string) => void;
   onDelete: (projectId: string) => void;
 }
 
@@ -41,10 +41,22 @@ const topicProgressStep: Record<TopicStatus, number> = {
   structure_done: 3,
   writing: 3,
   article_done: 4,
-  visual_done: 5,
-  multi_done: 6,
+  multi_done: 5,
+  visual_done: 6,
   final_done: 7,
   archived: 7,
+};
+
+const topicStatusLabels: Record<TopicStatus, string> = {
+  not_selected: "대기",
+  selected: "구성 전",
+  structure_done: "구성 완료",
+  writing: "작성 중",
+  article_done: "글 완료",
+  visual_done: "이미지 완료",
+  multi_done: "SNS 완료",
+  final_done: "최종 완료",
+  archived: "보관",
 };
 
 export default function Home({ projects, onCreate, onOpen, onDelete }: HomeProps) {
@@ -57,25 +69,27 @@ export default function Home({ projects, onCreate, onOpen, onDelete }: HomeProps
 
         <div className="hero-copy">
           <div className="hero-mascot-stack">
-            <p className="hero-mascot-label">DreamSapi Rebuild Studio</p>
             <div className="hero-mascot-speech">
               <BrandMascot size="lg" className="home-brand-mascot" />
-              <h1 className="hero-speech-bubble" aria-label={headline}>
-                <span>{headline}</span>
-              </h1>
+              <div className="hero-message-stack">
+                <p className="hero-mascot-label">DreamSapi Rebuild Studio</p>
+                <h1 className="hero-speech-bubble" aria-label={headline}>
+                  <span>{headline}</span>
+                </h1>
+                <button className="hero-start-text" onClick={onCreate}>START</button>
+                <p className="hero-lead">
+                  강의자료, 스크립트, 메모를 그대로 붙여넣으세요.<br />
+                  중요한 내용은 놓치지 않고 살리고,<br />
+                  블로그 글감부터 발행 전 세팅까지 차근차근 정리해드립니다.
+                </p>
+                <div className="hero-proof">
+                  <span>글감 5개</span>
+                  <span>핵심 살리기</span>
+                  <span>바로 발행</span>
+                </div>
+              </div>
             </div>
           </div>
-          <p className="hero-lead">
-            강의자료, 스크립트, 메모를 그대로 붙여넣으세요.<br />
-            중요한 내용은 놓치지 않고 살리고,<br />
-            블로그 글감부터 발행 전 세팅까지 차근차근 정리해드립니다.
-          </p>
-          <div className="hero-proof">
-            <span>글감 5개</span>
-            <span>핵심 살리기</span>
-            <span>바로 발행</span>
-          </div>
-          <button className="primary big hero-cta" onClick={onCreate}>블로그 만들기</button>
         </div>
 
         <div className="team-board-heading">
@@ -143,6 +157,30 @@ export default function Home({ projects, onCreate, onOpen, onDelete }: HomeProps
                 <span><strong>{summary.complete}</strong>완료</span>
               </div>
 
+              <div className="home-topic-preview">
+                <div className="home-topic-preview-head">
+                  <strong>이 프로젝트의 글감</strong>
+                  <button className="ghost" onClick={() => onOpen(project.projectId)}>전체 보기</button>
+                </div>
+                {summary.topics.length > 0 ? (
+                  <div className="home-topic-list">
+                    {summary.topics.map((topic) => (
+                      <button
+                        key={topic.topicId}
+                        className={project.currentTopicId === topic.topicId ? "home-topic-item active" : "home-topic-item"}
+                        onClick={() => onOpen(project.projectId, topic.topicId)}
+                      >
+                        <strong>{topicLabel(topic.topicId)}</strong>
+                        <span>{topic.finalTitle}</span>
+                        <em className={`topic-status status-${topic.status}`}>{topicStatusLabels[topic.status]}</em>
+                      </button>
+                    ))}
+                  </div>
+                ) : (
+                  <p className="home-topic-empty">키디R에서 T01~T05 글감을 고르면 여기에 작업 목록이 표시됩니다.</p>
+                )}
+              </div>
+
               <div className="project-card-actions">
                 <button className="primary" onClick={() => onOpen(project.projectId)}>계속 작업</button>
                 <button className="ghost danger" onClick={() => onDelete(project.projectId)}>삭제</button>
@@ -173,5 +211,10 @@ function getProjectCardSummary(project: RebuilderProject) {
     complete,
     currentTopicTitle: displayTopic?.finalTitle ?? null,
     progress: Math.round((step / 7) * 100),
+    topics: selectedTopics.slice(0, 5),
   };
+}
+
+function topicLabel(id: string) {
+  return id.replace("T", "글감 ");
 }

@@ -23,7 +23,12 @@ export default function PartnerAvatar({ partner, size = "md", state = "default",
 
   return (
     <span className={`partner-avatar-wrap ${showName ? "with-name" : ""}`}>
-      <span className={`partner-avatar ${size} ${hoverSrc ? "has-hover" : ""}`} style={{ "--character-color": character.color } as CSSProperties}>
+      <span
+        className={`partner-avatar ${size} partner-avatar-${partner} ${hoverSrc ? "has-hover" : ""}`}
+        data-partner={partner}
+        data-image-role={role}
+        style={{ "--character-color": character.color } as CSSProperties}
+      >
         {canShowImage ? (
           <>
             <img className="avatar-image-default" src={imageSrc} alt={`${character.alt} ${role}`} onError={() => setImageFailed(true)} />

@@ -1,10 +1,10 @@
 import type { PartnerKey, RebuilderProject } from "../types";
 import PartnerAvatar from "./PartnerAvatar";
 import { partnerCharacters, type CharacterState } from "../data/characters";
-import type { CSSProperties } from "react";
+import { useState, type CSSProperties, type ReactNode } from "react";
 import type { StorageHealth } from "../data/storage";
 import BrandMascot from "./BrandMascot";
-import BrandLogo from "./BrandLogo";
+import { partnerOrder } from "../data/partnerStatus";
 
 const partnerLabels: Record<PartnerKey, string> = {
   sodi: "소디",
@@ -38,10 +38,11 @@ interface LayoutProps {
   onManageSources: () => void;
   storageHealth: StorageHealth;
   characterStatuses: Record<PartnerKey, CharacterState>;
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 export default function Layout({ project, onPartnerChange, onTopicChange, onExportJson, onImportJson, onHome, onManageSources, storageHealth, characterStatuses, children }: LayoutProps) {
+  const [leftCompact, setLeftCompact] = useState(false);
   const currentTopic = project.currentTopicId ? project.topics[project.currentTopicId] : null;
   const completed = project.selectedTopicIds.filter((id) => project.topics[id]?.status === "final_done").length;
   const activeSources = project.masterSources.filter((source) => source.active !== false).length;
@@ -49,20 +50,17 @@ export default function Layout({ project, onPartnerChange, onTopicChange, onExpo
   const progress = projectProgress(project);
 
   return (
-    <div className="app-shell">
+    <div className={`app-shell ${leftCompact ? "left-compact" : ""}`}>
       <aside className="left-rail">
-        <div className="brand">
-          <span className="brand-mark logo-mark"><BrandLogo variant="symbol" /></span>
-          <div>
-            <strong>드림사피</strong>
-            <small>Rebuild Studio</small>
-          </div>
-        </div>
+        <button className="sidebar-toggle left-sidebar-toggle" onClick={() => setLeftCompact((value) => !value)}>
+          {leftCompact ? "펼치기" : "접기"}
+        </button>
         <nav className="partner-nav" aria-label="파트너 단계">
           <button className="home-nav-button" onClick={onHome}>
-            <span>홈으로</span>
+            <BrandMascot size="md" className="home-nav-mascot" />
+            <span className="home-nav-text">홈으로</span>
           </button>
-          {(Object.keys(partnerLabels) as PartnerKey[]).map((partner) => (
+          {partnerOrder.map((partner) => (
             <button
               key={partner}
               className={`${project.currentPartner === partner ? "active" : ""} ${characterStatuses[partner] === "complete" ? "done" : ""}`}
@@ -71,7 +69,7 @@ export default function Layout({ project, onPartnerChange, onTopicChange, onExpo
             >
               <span className="partner-nav-label">
                 <span className="nav-icon-wrap">
-                  <PartnerAvatar partner={partner} size="sm" imageRole="icon" />
+                  <PartnerAvatar partner={partner} size="sm" imageRole="default" />
                   {characterStatuses[partner] === "complete" && <span className="nav-complete-badge">✓</span>}
                 </span>
                 <span className="partner-nav-text">
@@ -88,13 +86,13 @@ export default function Layout({ project, onPartnerChange, onTopicChange, onExpo
 
       <aside className="status-panel">
         <section className="panel-card project-summary-card">
-          <div className="summary-manager-badge">
-            <BrandMascot size="sm" />
-            <span>관리자</span>
+          <div className="panel-title-row">
+            <div>
+              <p className="eyebrow">프로젝트</p>
+              <h2>{project.projectName}</h2>
+            </div>
           </div>
-          <p className="eyebrow">프로젝트</p>
-          <h2>{project.projectName}</h2>
-          <p className="muted">마지막 저장: {new Date(project.lastSavedAt).toLocaleString("ko-KR")}</p>
+          <p className="muted saved-line">저장 · {new Date(project.lastSavedAt).toLocaleString("ko-KR")}</p>
           <div className="metric-grid">
             <div><strong>{activeSources}</strong><span>사용 자료</span></div>
             <div><strong>{project.selectedTopicIds.length}</strong><span>선택 글감</span></div>
@@ -107,16 +105,18 @@ export default function Layout({ project, onPartnerChange, onTopicChange, onExpo
             </div>
             <div className="project-progress-bar"><span style={{ width: `${progress.percent}%` }} /></div>
           </div>
-          <button className="secondary panel-full-button" onClick={onManageSources}>원자료 관리</button>
         </section>
 
         <section className="panel-card current-status-card priority-panel-card">
           <p className="eyebrow">다음 작업</p>
           <div className="current-partner-line">
-            <PartnerAvatar partner={project.currentPartner} size="sm" imageRole="icon" />
-            <h3>{partnerLabels[project.currentPartner]}</h3>
+            <PartnerAvatar partner={project.currentPartner} size="sm" imageRole="default" />
+            <div>
+              <span>현재 위치</span>
+              <h3>{partnerLabels[project.currentPartner]}</h3>
+            </div>
           </div>
-          <p>{currentTopic ? `현재 글감: ${topicLabel(currentTopic.topicId)} · ${currentTopic.finalTitle}` : "아직 작업할 글감이 정해지지 않았습니다."}</p>
+          <p className="current-topic-brief">{currentTopic ? `${topicLabel(currentTopic.topicId)} · ${currentTopic.finalTitle}` : "글감 미선택"}</p>
           <div className="next-action-box">
             <strong>{next.title}</strong>
             <span>{next.description}</span>
@@ -132,7 +132,7 @@ export default function Layout({ project, onPartnerChange, onTopicChange, onExpo
         <section className="panel-card selected-topics-card">
           <p className="eyebrow">선택한 글감</p>
           <div className="topic-list">
-            {project.selectedTopicIds.length === 0 && <p className="muted">키디R에서 글감을 체크하면 여기에 표시됩니다.</p>}
+            {project.selectedTopicIds.length === 0 && <p className="muted">선택한 글감 없음</p>}
             {project.selectedTopicIds.map((topicId) => {
               const topic = project.topics[topicId];
               if (!topic) return null;
@@ -151,14 +151,16 @@ export default function Layout({ project, onPartnerChange, onTopicChange, onExpo
           <p className="eyebrow">작업 백업</p>
           <div className={`storage-health ${storageHealth.level}`}>
             <strong>{storageHealth.level === "safe" ? "자동 저장됨" : storageHealth.level === "warning" ? "백업 권장" : "백업 필요"}</strong>
-            <span>{storageHealth.message}</span>
-            <small>현재 저장량 {storageHealth.mb >= 0.1 ? `${storageHealth.mb}MB` : `${storageHealth.kb}KB`}</small>
+            <span>{storageHealth.level === "safe" ? "정상 작동 중" : storageHealth.message}</span>
+            <small>{storageHealth.mb >= 0.1 ? `${storageHealth.mb}MB` : `${storageHealth.kb}KB`}</small>
           </div>
-          <button className="secondary" onClick={onExportJson}>작업 파일 내보내기</button>
-          <label className="file-button">
-            작업 파일 가져오기
-            <input type="file" accept="application/json" onChange={(event) => event.target.files?.[0] && onImportJson(event.target.files[0])} />
-          </label>
+          <div className="backup-actions">
+            <button className="secondary" onClick={onExportJson}>내보내기</button>
+            <label className="file-button">
+              가져오기
+              <input type="file" accept="application/json" onChange={(event) => event.target.files?.[0] && onImportJson(event.target.files[0])} />
+            </label>
+          </div>
         </section>
       </aside>
     </div>
@@ -182,40 +184,40 @@ function nextHint(partner: PartnerKey, project: RebuilderProject) {
 
 function nextAction(project: RebuilderProject): { title: string; description: string; button: string; kind: "partner"; partner: PartnerKey } | { title: string; description: string; button: string; kind: "sources" } {
   if (!project.masterSources.some((source) => source.active !== false)) {
-    return { kind: "sources", title: "원자료가 필요해요", description: "블로그로 바꿀 자료를 먼저 붙여넣거나 다시 사용으로 바꾸세요.", button: "원자료 관리하기" };
+    return { kind: "sources", title: "원자료 필요", description: "자료를 먼저 저장하세요.", button: "자료 넣으러 GO" };
   }
   if (!project.sodi.sourceMap) {
-    return { kind: "partner", partner: "sodi", title: "소디 결과를 저장하세요", description: "소디 GPT 결과를 붙여넣고 저장하면 키디R로 넘어갈 수 있어요.", button: "소디로 이동" };
+    return { kind: "partner", partner: "sodi", title: "소디 결과 저장", description: "분석 결과를 붙여넣으세요.", button: "자료 분석하러 GO" };
   }
   if (project.topicCandidates.length !== 5) {
-    return { kind: "partner", partner: "kidiR", title: "글감 5개를 준비하세요", description: "키디R GPT 결과를 붙여넣고 T01~T05 목록으로 정리하세요.", button: "키디R로 이동" };
+    return { kind: "partner", partner: "kidiR", title: "글감 5개 정리", description: "키디R 결과를 붙여넣으세요.", button: "글감 찾으러 GO" };
   }
   if (!project.selectedTopicIds.length) {
-    return { kind: "partner", partner: "kidiR", title: "제작할 글감을 고르세요", description: "T01~T05 중 실제로 만들 글감을 하나 이상 체크하세요.", button: "글감 선택하기" };
+    return { kind: "partner", partner: "kidiR", title: "글감 선택", description: "만들 글감을 체크하세요.", button: "글감 고르러 GO" };
   }
   const topic = project.currentTopicId ? project.topics[project.currentTopicId] : null;
   if (!topic) {
-    return { kind: "partner", partner: "kidiR", title: "작업할 글감을 선택하세요", description: "오른쪽 글감 목록이나 키디R 화면에서 이어갈 글감을 선택하세요.", button: "키디R로 이동" };
+    return { kind: "partner", partner: "kidiR", title: "작업 글감 선택", description: "이어갈 글감을 고르세요.", button: "글감 고르러 GO" };
   }
   if (topic.status === "selected") {
-    return { kind: "partner", partner: "rodiR", title: "글 구성을 잡을 차례예요", description: "로디R에서 목차와 흐름을 먼저 설계하면 글쓰기가 쉬워집니다.", button: "로디R로 이동" };
+    return { kind: "partner", partner: "rodiR", title: "글 구성 만들기", description: "목차와 흐름을 잡으세요.", button: "글 구성하러 GO" };
   }
   if (topic.status === "structure_done" || topic.status === "writing") {
-    return { kind: "partner", partner: "writeR", title: "본문을 작성하세요", description: "라이R에서 구성안을 블로그 글로 확장하고 저장하세요.", button: "라이R로 이동" };
+    return { kind: "partner", partner: "writeR", title: "본문 작성", description: "블로그 글을 완성하세요.", button: "글 쓰러 GO" };
   }
   if (topic.status === "article_done") {
-    return { kind: "partner", partner: "bijiR", title: "이미지 구성을 정하세요", description: "비지R에서 글에 맞는 시각자료를 정리하면 발행 품질이 좋아집니다.", button: "비지R로 이동" };
-  }
-  if (topic.status === "visual_done") {
-    return { kind: "partner", partner: "multiR", title: "SNS 글도 만들까요?", description: "필요한 SNS가 있다면 멀티R에서 확장하고, 아니면 체키R로 넘어가도 됩니다.", button: "멀티R로 이동" };
+    return { kind: "partner", partner: "multiR", title: "SNS 확장", description: "SNS 글을 만드세요.", button: "SNS 만들러 GO" };
   }
   if (topic.status === "multi_done") {
-    return { kind: "partner", partner: "chekiR", title: "최종 점검만 남았어요", description: "체키R에서 빠진 내용과 어색한 부분을 확인하세요.", button: "체키R로 이동" };
+    return { kind: "partner", partner: "bijiR", title: "이미지 구성", description: "필요한 이미지를 정리하세요.", button: "이미지 짜러 GO" };
+  }
+  if (topic.status === "visual_done") {
+    return { kind: "partner", partner: "chekiR", title: "최종 점검", description: "빠진 내용을 확인하세요.", button: "최종 점검하러 GO" };
   }
   if (topic.status === "final_done") {
-    return { kind: "partner", partner: "kidiR", title: "다음 글감으로 이어가세요", description: "완료한 글감은 두고, 키디R에서 다음 T번호를 선택해 진행하세요.", button: "다음 글감 선택" };
+    return { kind: "partner", partner: "kidiR", title: "다음 글감", description: "다른 T번호를 선택하세요.", button: "다음 글감 고르러 GO" };
   }
-  return { kind: "partner", partner: project.currentPartner, title: "현재 결과를 저장하세요", description: "지금 화면의 결과를 저장하거나 다음 파트너로 넘기세요.", button: "현재 단계 보기" };
+  return { kind: "partner", partner: project.currentPartner, title: "결과 저장", description: "현재 단계를 저장하세요.", button: "현재 단계로 GO" };
 }
 
 function projectProgress(project: RebuilderProject) {
