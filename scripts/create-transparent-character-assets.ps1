@@ -1,0 +1,1 @@
+python scripts\create_transparent_character_assets.py
