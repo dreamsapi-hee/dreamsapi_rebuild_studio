@@ -172,7 +172,7 @@ OUTPUT_FORMAT:
 3. 블로그 본문
 4. 핵심 키워드
 5. 메타 설명
-6. 비지R에게 넘길 HANDOFF
+6. 멀티R에게 넘길 HANDOFF
 ${naverRequest}
 
 ${SOURCE_POLICY}
@@ -193,7 +193,7 @@ TOPIC_ID: ${topic.topicId}
 TOPIC: ${topic.finalTitle}
 
 TASK:
-- 아래 블로그 글에 필요한 시각자료를 기획하세요.
+- 아래 블로그 글과 SNS 확장 결과에 필요한 시각자료를 기획하세요.
 - 이미지를 몇 장 넣을지 먼저 추천하고, 각 이미지의 목적과 위치를 정하세요.
 - 장식용 이미지보다 이해를 돕는 이미지, 표, 체크리스트, 카드뉴스 구성을 우선하세요.
 
@@ -205,12 +205,15 @@ OUTPUT_FORMAT:
    - 목적
    - 화면에 들어갈 문구
    - 이미지/인포그래픽 제작 프롬프트
-3. 멀티R에게 넘길 HANDOFF
+3. 체키R에게 넘길 HANDOFF
 
 ${SOURCE_POLICY}
 
 BLOG_ARTICLE:
 ${topic.writeR.displayResult}
+
+SNS_CONTENT:
+${topic.multiR.displayResult || "멀티R을 건너뛰었거나 아직 SNS 결과가 없습니다. 이 경우 블로그 글 기준으로 시각자료를 기획하세요."}
 [/BIJI_R_INPUT]`;
 }
 
@@ -226,19 +229,17 @@ TASK:
 - 블로그 글을 선택한 SNS 형식에 맞게 확장하세요.
 - 플랫폼마다 문체, 길이, CTA, 해시태그를 다르게 설계하세요.
 - 블로그 글 전체를 그대로 줄이지 말고, 플랫폼에 맞는 핵심 메시지로 재구성하세요.
+- 이후 비지R이 블로그와 SNS에 필요한 시각자료를 함께 기획할 수 있도록 이미지 아이디어가 떠오르는 지점도 간단히 표시하세요.
 
 OUTPUT_FORMAT:
 - 플랫폼별로 구분해서 작성
 - 각 플랫폼마다 제목/본문/CTA/해시태그 또는 업로드 팁 포함
-- 체키R에게 넘길 HANDOFF 포함
+- 비지R에게 넘길 HANDOFF 포함
 
 ${SOURCE_POLICY}
 
 BLOG_ARTICLE:
 ${topic.writeR.displayResult}
-
-VISUAL_PLAN:
-${topic.bijiR.displayResult}
 [/MULTI_R_INPUT]`;
 }
 

@@ -3,7 +3,7 @@ import type { CharacterState } from "./characters";
 
 export type PartnerCharacterStatusMap = Record<PartnerKey, CharacterState>;
 
-export const partnerOrder: PartnerKey[] = ["sodi", "kidiR", "rodiR", "writeR", "bijiR", "multiR", "chekiR"];
+export const partnerOrder: PartnerKey[] = ["sodi", "kidiR", "rodiR", "writeR", "multiR", "bijiR", "chekiR"];
 
 export const getPartnerCharacterStatuses = (
   project: RebuilderProject,
@@ -22,11 +22,11 @@ export const getPartnerCharacterStatuses = (
     if (currentTopic.writeR.status === "confirmed" || ["article_done", "visual_done", "multi_done", "final_done"].includes(currentTopic.status)) {
       statuses.writeR = "complete";
     }
-    if (currentTopic.bijiR.status === "confirmed" || ["visual_done", "multi_done", "final_done"].includes(currentTopic.status)) {
-      statuses.bijiR = "complete";
-    }
     if (currentTopic.multiR.status === "confirmed" || currentTopic.multiR.status === "skipped" || ["multi_done", "final_done"].includes(currentTopic.status)) {
       statuses.multiR = "complete";
+    }
+    if (currentTopic.bijiR.status === "confirmed" || ["visual_done", "final_done"].includes(currentTopic.status)) {
+      statuses.bijiR = "complete";
     }
     if (currentTopic.chekiR.status === "confirmed" || currentTopic.status === "final_done") {
       statuses.chekiR = "complete";
@@ -37,4 +37,3 @@ export const getPartnerCharacterStatuses = (
 
   return statuses;
 };
-

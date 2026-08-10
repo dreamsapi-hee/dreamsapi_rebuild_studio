@@ -231,7 +231,7 @@ ${(sourceMap.sections[0]?.tips.length ? sourceMap.sections[0].tips : ["핵심 �
       keyPoints: sourceMap.coreFacts.slice(0, 4),
       importantSourceElementsUsed: sourceMap.sections.slice(0, 4).map((section) => section.sectionId),
       visualPriority: ["단계 설명", "핵심 체크리스트", "프롬프트/예시 카드"],
-      next_partner: "비지R",
+      next_partner: "멀티R",
     },
   };
 };

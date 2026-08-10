@@ -110,7 +110,7 @@ export function startSelectedTopics(project: RebuilderProject): RebuilderProject
 
   const nextTopics = { ...project.topics };
   selected.forEach((candidate) => {
-    nextTopics[candidate.id] = createTopicWork(candidate.id, candidate.topic, candidate.finalTitle, {
+    const handoff = {
       topic_id: candidate.id,
       status: "confirmed",
       topic: candidate.topic,
@@ -121,13 +121,30 @@ export function startSelectedTopics(project: RebuilderProject): RebuilderProject
       source_map_refs: candidate.sourceRefs,
       must_include: [candidate.coreMessage],
       next_partner: "로디R",
-    });
+    };
+
+    nextTopics[candidate.id] = nextTopics[candidate.id]
+      ? {
+          ...nextTopics[candidate.id],
+          topic: candidate.topic,
+          finalTitle: candidate.finalTitle,
+          kidiR: {
+            ...nextTopics[candidate.id].kidiR,
+            handoff,
+            updatedAt: nowIso(),
+          },
+          updatedAt: nowIso(),
+        }
+      : createTopicWork(candidate.id, candidate.topic, candidate.finalTitle, handoff);
   });
+
+  const currentTopicStillSelected = project.currentTopicId && selected.some((item) => item.id === project.currentTopicId);
+  const currentTopicId = currentTopicStillSelected ? project.currentTopicId : selected[0].id;
 
   return {
     ...project,
     currentPartner: "rodiR",
-    currentTopicId: selected[0].id,
+    currentTopicId,
     selectedTopicIds: selected.map((item) => item.id),
     topics: nextTopics,
   };
@@ -185,7 +202,7 @@ export function applyVisualDraft(topic: TopicWork): TopicWork {
         visual_count: visuals.length,
         visual_style: "mixed",
         key_visuals: visuals.map((visual) => `${visual.id}: ${visual.role}`),
-        next_partner: "멀티R",
+        next_partner: "체키R",
       },
       confirmedAt: nowIso(),
     },
@@ -215,7 +232,7 @@ export function applyMultiDraft(topic: TopicWork, platforms: string[]): TopicWor
       displayResult: JSON.stringify(outputs, null, 2),
       selectedPlatforms: platforms,
       outputs,
-      handoff: { topic_id: topic.topicId, status: "confirmed", created_platforms: platforms, next_partner: "체키R" },
+      handoff: { topic_id: topic.topicId, status: "confirmed", created_platforms: platforms, next_partner: "비지R" },
       confirmedAt: nowIso(),
     },
   };
@@ -229,7 +246,7 @@ export function saveMultiTopic(topic: TopicWork): TopicWork {
       ...topic.multiR,
       status: "confirmed",
       outputs: topic.multiR.outputs ?? { pasted_result: topic.multiR.displayResult },
-      handoff: { topic_id: topic.topicId, status: "confirmed", source: "pasted_result", next_partner: "체키R" },
+      handoff: { topic_id: topic.topicId, status: "confirmed", source: "pasted_result", next_partner: "비지R" },
       confirmedAt: nowIso(),
     },
   };
