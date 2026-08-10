@@ -209,9 +209,11 @@ textarea { min-height: 280px; resize: vertical; line-height: 1.6; }
 .workflow-actions .secondary, .workflow-actions .primary, .workflow-actions .link-button { min-height: 42px; padding: 10px 15px; font-weight: 850; }
 .workflow-actions .primary { background: linear-gradient(135deg, #3a2a1a, #8a5a22); box-shadow: 0 10px 20px rgba(43,33,22,.14); }
 .workflow-actions .primary:hover, .workflow-actions .secondary:hover, .workflow-actions .link-button:hover { transform: translateY(-1px); }
-.workflow-copy-group { display: grid; grid-template-columns: auto; gap: 5px; align-items: center; justify-items: start; padding: 2px 4px; }
+.workflow-copy-group { position: relative; display: grid; grid-template-columns: auto; gap: 5px; align-items: center; justify-items: start; padding: 2px 4px; }
 .workflow-copy-group .secondary { min-width: 104px; justify-content: center; }
-.input-copy-note { display: inline-flex; align-items: center; min-height: auto; padding: 0 2px; border: 0; border-radius: 0; background: transparent; box-shadow: none; color: #9a7a50; font-size: 11px; font-weight: 850; line-height: 1.2; white-space: nowrap; pointer-events: none; }
+.input-copy-note { position: absolute; left: 50%; top: calc(100% + 8px); z-index: 20; display: inline-flex; align-items: center; min-height: auto; width: max-content; max-width: 220px; padding: 7px 10px; border: 1px solid rgba(43,33,22,.12); border-radius: 999px; background: #2b2116; box-shadow: 0 12px 26px rgba(43,33,22,.16); color: #fff8ef; font-size: 11px; font-weight: 850; line-height: 1.2; white-space: nowrap; pointer-events: none; opacity: 0; transform: translate(-50%, -3px) scale(.96); transition: opacity .16s ease, transform .16s ease; }
+.input-copy-note::before { content: ""; position: absolute; left: 50%; top: -5px; width: 10px; height: 10px; transform: translateX(-50%) rotate(45deg); background: #2b2116; border-left: 1px solid rgba(43,33,22,.12); border-top: 1px solid rgba(43,33,22,.12); }
+.workflow-copy-group:hover .input-copy-note, .workflow-copy-group:focus-within .input-copy-note { opacity: 1; transform: translate(-50%, 0) scale(1); }
 .gpt-workflow-note { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 8px; margin: -4px 0 18px; }
 .gpt-workflow-note div { display: grid; grid-template-columns: auto 1fr; align-items: center; gap: 8px; min-width: 0; padding: 10px 11px; border-radius: 14px; background: rgba(255, 253, 248, .72); border: 1px solid rgba(234, 223, 206, .78); color: #6d6257; }
 .gpt-workflow-note strong { display: grid; place-items: center; width: 22px; height: 22px; border-radius: 999px; background: #2b2116; color: #fff8ef; font-size: 12px; line-height: 1; }
