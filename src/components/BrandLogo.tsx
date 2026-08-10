@@ -1,12 +1,14 @@
+import { publicAsset } from "../utils/assets";
+
 interface BrandLogoProps {
   variant?: "korean" | "primary" | "symbol";
   className?: string;
 }
 
 const logoImages = {
-  korean: "/assets/characters/dreamsapi/ui/dreamsapi-korean-logo-ui.png",
-  primary: "/assets/characters/dreamsapi/ui/dreamsapi-primary-logo-ui.png",
-  symbol: "/assets/characters/dreamsapi/ui/dreamsapi-symbol-ui.png",
+  korean: publicAsset("assets/characters/dreamsapi/ui/dreamsapi-korean-logo-ui.png"),
+  primary: publicAsset("assets/characters/dreamsapi/ui/dreamsapi-primary-logo-ui.png"),
+  symbol: publicAsset("assets/characters/dreamsapi/ui/dreamsapi-symbol-ui.png"),
 };
 
 const altText = {

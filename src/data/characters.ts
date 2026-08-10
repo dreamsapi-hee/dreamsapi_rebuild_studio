@@ -1,4 +1,5 @@
 import type { PartnerKey } from "../types";
+import { publicAsset } from "../utils/assets";
 
 export type CharacterState = "default" | "analyzing" | "complete";
 export type CharacterImageRole = "icon" | CharacterState;
@@ -22,10 +23,10 @@ export const partnerCharacters: Record<PartnerKey, PartnerCharacter> = {
     initials: "소",
     alt: "소디 캐릭터",
     images: {
-      icon: "/assets/characters/nav-icons/sodi-nav.png",
-      default: "/assets/characters/transparent/sodi-default.png",
-      analyzing: "/assets/characters/transparent/sodi-analyzing.png",
-      complete: "/assets/characters/transparent/sodi-complete.png",
+      icon: publicAsset("assets/characters/nav-icons/sodi-nav.png"),
+      default: publicAsset("assets/characters/transparent/sodi-default.png"),
+      analyzing: publicAsset("assets/characters/transparent/sodi-analyzing.png"),
+      complete: publicAsset("assets/characters/transparent/sodi-complete.png"),
     },
     messages: {
       default: "자료를 넣어주면 중요한 내용부터 꼼꼼히 정리할게요.",
@@ -41,10 +42,10 @@ export const partnerCharacters: Record<PartnerKey, PartnerCharacter> = {
     initials: "키",
     alt: "키디R 캐릭터",
     images: {
-      icon: "/assets/characters/nav-icons/kidi-nav.png",
-      default: "/assets/characters/transparent/kidi-default.png",
-      analyzing: "/assets/characters/transparent/kidi-analyzing.png",
-      complete: "/assets/characters/transparent/kidi-complete.png",
+      icon: publicAsset("assets/characters/nav-icons/kidi-nav.png"),
+      default: publicAsset("assets/characters/transparent/kidi-default.png"),
+      analyzing: publicAsset("assets/characters/transparent/kidi-analyzing.png"),
+      complete: publicAsset("assets/characters/transparent/kidi-complete.png"),
     },
     messages: {
       default: "분석한 자료에서 블로그로 쓸 만한 글감을 찾아볼게요.",
@@ -60,10 +61,10 @@ export const partnerCharacters: Record<PartnerKey, PartnerCharacter> = {
     initials: "로",
     alt: "로디R 캐릭터",
     images: {
-      icon: "/assets/characters/nav-icons/rodi-nav.png",
-      default: "/assets/characters/transparent/rodi-default.png",
-      analyzing: "/assets/characters/transparent/rodi-analyzing.png",
-      complete: "/assets/characters/transparent/rodi-complete.png",
+      icon: publicAsset("assets/characters/nav-icons/rodi-nav.png"),
+      default: publicAsset("assets/characters/transparent/rodi-default.png"),
+      analyzing: publicAsset("assets/characters/transparent/rodi-analyzing.png"),
+      complete: publicAsset("assets/characters/transparent/rodi-complete.png"),
     },
     messages: {
       default: "선택한 글감을 읽기 쉬운 글 순서로 정리할게요.",
@@ -79,10 +80,10 @@ export const partnerCharacters: Record<PartnerKey, PartnerCharacter> = {
     initials: "라",
     alt: "라이R 캐릭터",
     images: {
-      icon: "/assets/characters/nav-icons/writi-nav.png",
-      default: "/assets/characters/transparent/writi-default.png",
-      analyzing: "/assets/characters/transparent/writi-analyzing.png",
-      complete: "/assets/characters/transparent/writi-complete.png",
+      icon: publicAsset("assets/characters/nav-icons/writi-nav.png"),
+      default: publicAsset("assets/characters/transparent/writi-default.png"),
+      analyzing: publicAsset("assets/characters/transparent/writi-analyzing.png"),
+      complete: publicAsset("assets/characters/transparent/writi-complete.png"),
     },
     messages: {
       default: "정리된 구성을 바탕으로 블로그 글을 써볼게요.",
@@ -98,10 +99,10 @@ export const partnerCharacters: Record<PartnerKey, PartnerCharacter> = {
     initials: "비",
     alt: "비지R 캐릭터",
     images: {
-      icon: "/assets/characters/nav-icons/bizi-nav.png",
-      default: "/assets/characters/transparent/bizi-default.png",
-      analyzing: "/assets/characters/transparent/bizi-analyzing.png",
-      complete: "/assets/characters/transparent/bizi-complete.png",
+      icon: publicAsset("assets/characters/nav-icons/bizi-nav.png"),
+      default: publicAsset("assets/characters/transparent/bizi-default.png"),
+      analyzing: publicAsset("assets/characters/transparent/bizi-analyzing.png"),
+      complete: publicAsset("assets/characters/transparent/bizi-complete.png"),
     },
     messages: {
       default: "글에 어울리는 이미지와 카드 구성을 제안할게요.",
@@ -117,10 +118,10 @@ export const partnerCharacters: Record<PartnerKey, PartnerCharacter> = {
     initials: "멀",
     alt: "멀티R 캐릭터",
     images: {
-      icon: "/assets/characters/nav-icons/multi-nav.png",
-      default: "/assets/characters/transparent/multi-default.png",
-      analyzing: "/assets/characters/transparent/multi-analyzing.png",
-      complete: "/assets/characters/transparent/multi-complete.png",
+      icon: publicAsset("assets/characters/nav-icons/multi-nav.png"),
+      default: publicAsset("assets/characters/transparent/multi-default.png"),
+      analyzing: publicAsset("assets/characters/transparent/multi-analyzing.png"),
+      complete: publicAsset("assets/characters/transparent/multi-complete.png"),
     },
     messages: {
       default: "완성된 글을 SNS용 콘텐츠로 바꿔볼게요.",
@@ -136,10 +137,10 @@ export const partnerCharacters: Record<PartnerKey, PartnerCharacter> = {
     initials: "체",
     alt: "체키R 캐릭터",
     images: {
-      icon: "/assets/characters/nav-icons/cheki-nav.png",
-      default: "/assets/characters/transparent/cheki-default.png",
-      analyzing: "/assets/characters/transparent/cheki-analyzing.png",
-      complete: "/assets/characters/transparent/cheki-complete.png",
+      icon: publicAsset("assets/characters/nav-icons/cheki-nav.png"),
+      default: publicAsset("assets/characters/transparent/cheki-default.png"),
+      analyzing: publicAsset("assets/characters/transparent/cheki-analyzing.png"),
+      complete: publicAsset("assets/characters/transparent/cheki-complete.png"),
     },
     messages: {
       default: "발행하기 전에 빠진 내용과 어색한 부분을 확인할게요.",

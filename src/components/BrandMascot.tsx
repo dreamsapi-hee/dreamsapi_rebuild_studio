@@ -1,3 +1,5 @@
+import { publicAsset } from "../utils/assets";
+
 interface BrandMascotProps {
   size?: "sm" | "md" | "lg";
   state?: "default" | "complete";
@@ -6,8 +8,8 @@ interface BrandMascotProps {
 }
 
 const images = {
-  default: "/assets/characters/dreamsapi/ds-default.png",
-  complete: "/assets/characters/dreamsapi/ds-complete.png",
+  default: publicAsset("assets/characters/dreamsapi/ds-default.png"),
+  complete: publicAsset("assets/characters/dreamsapi/ds-complete.png"),
 };
 
 export default function BrandMascot({
