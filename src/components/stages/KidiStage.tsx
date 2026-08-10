@@ -31,8 +31,10 @@ export default function KidiStage({ project, onGenerate, onPatchKidi, onSaveKidi
       </p>
 
       <div className="row-actions workflow-actions">
-        <button className="secondary" onClick={copyPackage}>보낼 내용 복사</button>
-        <span className="input-copy-note">SOURCE MAP</span>
+        <div className="workflow-copy-group">
+          <button className="secondary" onClick={copyPackage}>자료 복사</button>
+          <span className="input-copy-note">복사 내용 · 소디 분석</span>
+        </div>
         <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75abd2bce481919e1aebc1b18b393b-kidir" target="_blank">키디R GPT 열기</a>
         <button className="primary" onClick={onSaveKidi} disabled={!project.kidiR?.displayResult?.trim() && project.topicCandidates.length === 0}>T01~T05 정리</button>
         <button className="primary" onClick={onStartTopics} disabled={!project.topicCandidates.some((item) => item.selected)}>선택 글감 시작</button>

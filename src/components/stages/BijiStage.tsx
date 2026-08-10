@@ -31,10 +31,12 @@ export default function BijiStage({ project, onGenerate, onPatchBiji, onConfirm,
       </p>
 
       <div className="row-actions workflow-actions">
-        <button className="secondary" onClick={copyPackage}>보낼 내용 복사</button>
-        <span className="input-copy-note">완성 블로그 글</span>
+        <div className="workflow-copy-group">
+          <button className="secondary" onClick={copyPackage}>자료 복사</button>
+          <span className="input-copy-note">복사 내용 · 블로그 글</span>
+        </div>
         <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75ad638858819198c6f49b4852d6fb-bijir" target="_blank">비지R GPT 열기</a>
-        <button className="primary" onClick={onConfirm} disabled={!topic.bijiR.displayResult.trim() && !topic.bijiR.visuals?.length}>저장 후 멀티R로</button>
+        <button className="primary" onClick={onConfirm} disabled={!topic.bijiR.displayResult.trim() && !topic.bijiR.visuals?.length}>결과 저장</button>
         <button className="assistive-action" onClick={onGenerate}>앱에서 임시 초안</button>
       </div>
 

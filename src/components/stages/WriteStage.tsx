@@ -54,10 +54,12 @@ export default function WriteStage({ project, onSettings, onGenerate, onPatchWri
       </p>
 
       <div className="row-actions workflow-actions">
-        <button className="secondary" onClick={copyPackage}>보낼 내용 복사</button>
-        <span className="input-copy-note">글 구성 + 작성 옵션</span>
+        <div className="workflow-copy-group">
+          <button className="secondary" onClick={copyPackage}>자료 복사</button>
+          <span className="input-copy-note">복사 내용 · 구성안</span>
+        </div>
         <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75ad00e1f88191bac5772e51055671-raitir" target="_blank">라이R GPT 열기</a>
-        <button className="primary" onClick={onConfirm} disabled={!topic.writeR.displayResult.trim()}>저장 후 비지R로</button>
+        <button className="primary" onClick={onConfirm} disabled={!topic.writeR.displayResult.trim()}>결과 저장</button>
         <button className="secondary" onClick={copyArticle} disabled={!topic.writeR.displayResult}>글만 복사</button>
         <button className="assistive-action" onClick={onGenerate}>앱에서 임시 초안</button>
       </div>

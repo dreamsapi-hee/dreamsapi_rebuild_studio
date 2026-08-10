@@ -59,10 +59,12 @@ export default function MultiStage({ project, onGenerate, onPatchMulti, onSaveMu
       </div>
 
       <div className="row-actions workflow-actions">
-        <button className="secondary" onClick={copyPackage}>보낼 내용 복사</button>
-        <span className="input-copy-note">글 + 이미지 구성</span>
+        <div className="workflow-copy-group">
+          <button className="secondary" onClick={copyPackage}>자료 복사</button>
+          <span className="input-copy-note">복사 내용 · 글+이미지</span>
+        </div>
         <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75adae31f88191bfaf0ba76b5eb957-meoltir" target="_blank">멀티R GPT 열기</a>
-        <button className="primary" onClick={onSaveMulti} disabled={!topic.multiR.displayResult.trim() && !topic.multiR.outputs}>저장 후 체키R로</button>
+        <button className="primary" onClick={onSaveMulti} disabled={!topic.multiR.displayResult.trim() && !topic.multiR.outputs}>결과 저장</button>
         <button className="secondary" onClick={onSkip}>SNS 건너뛰기</button>
         <button className="assistive-action" onClick={() => onGenerate(selected)} disabled={!selected.length}>앱에서 임시 초안</button>
       </div>

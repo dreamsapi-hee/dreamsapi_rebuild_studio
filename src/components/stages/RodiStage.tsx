@@ -31,10 +31,12 @@ export default function RodiStage({ project, onGenerate, onPatchRodi, onConfirm,
       </p>
 
       <div className="row-actions workflow-actions">
-        <button className="secondary" onClick={copyPackage}>보낼 내용 복사</button>
-        <span className="input-copy-note">글감 + 소디/키디 결과</span>
+        <div className="workflow-copy-group">
+          <button className="secondary" onClick={copyPackage}>자료 복사</button>
+          <span className="input-copy-note">복사 내용 · 글감+분석</span>
+        </div>
         <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75ac82d7e48191ae5238d1471b7bd4-rodir" target="_blank">로디R GPT 열기</a>
-        <button className="primary" onClick={onConfirm} disabled={!topic.rodiR.displayResult.trim()}>저장 후 라이R로</button>
+        <button className="primary" onClick={onConfirm} disabled={!topic.rodiR.displayResult.trim()}>결과 저장</button>
         <button className="assistive-action" onClick={onGenerate}>앱에서 임시 초안</button>
       </div>
 

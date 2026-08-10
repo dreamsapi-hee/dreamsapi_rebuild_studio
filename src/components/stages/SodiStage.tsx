@@ -29,10 +29,12 @@ export default function SodiStage({ project, onGenerate, onConfirm, onPatchSodi,
       </p>
 
       <div className="row-actions workflow-actions">
-        <button className="secondary" onClick={copyPackage}>보낼 내용 복사</button>
-        <span className="input-copy-note">원자료 본문 전체</span>
+        <div className="workflow-copy-group">
+          <button className="secondary" onClick={copyPackage}>자료 복사</button>
+          <span className="input-copy-note">복사 내용 · 원자료 전체</span>
+        </div>
         <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75aadea8848191a646132ce53c5c89-sodi" target="_blank">소디 GPT 열기</a>
-        <button className="primary" onClick={onConfirm} disabled={!project.sodi.displayResult.trim() && !project.sodi.sourceMap}>저장 후 키디R로</button>
+        <button className="primary" onClick={onConfirm} disabled={!project.sodi.displayResult.trim() && !project.sodi.sourceMap}>결과 저장</button>
         <button className="assistive-action" onClick={onGenerate}>앱에서 임시 초안</button>
       </div>
 
@@ -44,7 +46,7 @@ export default function SodiStage({ project, onGenerate, onConfirm, onPatchSodi,
 
       <div className="helper-card">
         <strong>소디 GPT에 붙여넣을 때</strong>
-        <span>파일명이나 경로만 보내면 소디가 내용을 읽을 수 없습니다. 반드시 “보낼 내용 복사”로 복사된 텍스트 전체를 채팅창에 붙여넣어 주세요.</span>
+        <span>파일명이나 경로만 보내면 소디가 내용을 읽을 수 없습니다. 반드시 “자료 복사”로 복사된 텍스트 전체를 채팅창에 붙여넣어 주세요.</span>
       </div>
 
       <CollapsibleTextarea

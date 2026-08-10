@@ -61,10 +61,12 @@ export default function ChekiStage({ project, onGenerate, onPatchCheki, onSaveCh
       </p>
 
       <div className="row-actions workflow-actions">
-        <button className="secondary" onClick={copyPackage}>보낼 내용 복사</button>
-        <span className="input-copy-note">글 + 비주얼 + SNS</span>
+        <div className="workflow-copy-group">
+          <button className="secondary" onClick={copyPackage}>자료 복사</button>
+          <span className="input-copy-note">복사 내용 · 최종 점검</span>
+        </div>
         <a className="secondary link-button" href="https://chatgpt.com/g/g-6a75adf228748191a0aeff895d93bb3c-cekir" target="_blank">체키R GPT 열기</a>
-        <button className="primary" onClick={onSaveCheki} disabled={!topic.chekiR.displayResult.trim() && !topic.chekiR.finalPackage}>최종 결과 저장</button>
+        <button className="primary" onClick={onSaveCheki} disabled={!topic.chekiR.displayResult.trim() && !topic.chekiR.finalPackage}>결과 저장</button>
         <button className="assistive-action" onClick={onGenerate}>앱에서 임시 초안</button>
       </div>
 
