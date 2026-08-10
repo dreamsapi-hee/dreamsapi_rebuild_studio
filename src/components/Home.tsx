@@ -13,7 +13,7 @@ interface HomeProps {
   onDelete: (projectId: string) => void;
 }
 
-const headline = "자료만 넣으면, 블로그는 드림사피가 완성합니다";
+const headline = "자료만 넣으면, 블로그 완성";
 
 const partnerLabels: Record<PartnerKey, string> = {
   sodi: "소디",
@@ -56,11 +56,11 @@ export default function Home({ projects, onCreate, onOpen, onDelete }: HomeProps
         </div>
 
         <div className="hero-copy">
-          <div className="hero-title-lockup">
-            <BrandMascot size="lg" className="home-brand-mascot" />
-            <div className="hero-title-text">
-              <p className="eyebrow">DreamSapi Rebuild Studio</p>
-              <h1 className="hero-typing" aria-label={headline}>
+          <div className="hero-mascot-stack">
+            <p className="hero-mascot-label">DreamSapi Rebuild Studio</p>
+            <div className="hero-mascot-speech">
+              <BrandMascot size="lg" className="home-brand-mascot" />
+              <h1 className="hero-speech-bubble" aria-label={headline}>
                 <span>{headline}</span>
               </h1>
             </div>
@@ -71,16 +71,16 @@ export default function Home({ projects, onCreate, onOpen, onDelete }: HomeProps
             블로그 글감부터 발행 전 세팅까지 차근차근 정리해드립니다.
           </p>
           <div className="hero-proof">
-            <span>글감 5개 제안</span>
-            <span>원자료 디테일 보존</span>
-            <span>발행 전 세팅까지</span>
+            <span>글감 5개</span>
+            <span>핵심 살리기</span>
+            <span>바로 발행</span>
           </div>
-          <button className="primary big hero-cta" onClick={onCreate}>새 작업 시작</button>
+          <button className="primary big hero-cta" onClick={onCreate}>블로그 만들기</button>
         </div>
 
         <div className="team-board-heading">
           <span>7 AI Partners</span>
-          <strong>각 단계마다 전담 파트너가 결과를 이어받습니다</strong>
+          <strong>7명의 파트너가 이어 완성합니다</strong>
         </div>
 
         <div className="hero-character-stage" aria-label="7명의 AI 콘텐츠 파트너">
