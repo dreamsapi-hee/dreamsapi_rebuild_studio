@@ -202,6 +202,8 @@ export default function App() {
     }
   };
 
+  const isSourceSetup = showSourceManager || (project.currentPartner === "sodi" && !project.masterSources.length);
+
   return (
     <Layout
       project={project}
@@ -224,8 +226,9 @@ export default function App() {
       onHome={() => setProject(null)}
       onManageSources={() => setShowSourceManager(true)}
       characterStatuses={characterStatuses!}
+      isSourceSetup={isSourceSetup}
     >
-      {showSourceManager || (project.currentPartner === "sodi" && !project.masterSources.length) ? (
+      {isSourceSetup ? (
         <ProjectSetup project={project} onUpdate={commit} onDone={() => {
           setShowSourceManager(false);
           commit({ ...project, currentPartner: "sodi" });

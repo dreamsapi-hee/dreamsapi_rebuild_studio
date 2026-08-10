@@ -212,9 +212,12 @@ button:disabled { cursor: not-allowed; opacity: .5; }
 .stage-card { padding: 28px; min-height: calc(100vh - 36px); }
 .stage-card h1 { font-size: 34px; margin: 0 0 10px; letter-spacing: -0.04em; }
 .setup-card { background: linear-gradient(180deg, rgba(255,255,255,.92), rgba(255,253,248,.88)); }
-.setup-intro { display: grid; grid-template-columns: auto minmax(0, 1fr); gap: 14px; align-items: center; margin-bottom: 24px; padding: 18px 20px; border-radius: 24px; background: linear-gradient(135deg, #fff7e8, #fffdf8 62%); border: 1px solid #efd8ae; box-shadow: inset 0 1px 0 rgba(255,255,255,.88), 0 14px 34px rgba(62,47,29,.055); }
-.setup-intro .eyebrow { margin: 0; padding: 8px 12px; border-radius: 999px; background: rgba(255,184,77,.13); color: #c06a12; white-space: nowrap; }
+.setup-intro { display: grid; grid-template-columns: 136px minmax(0, 1fr); gap: 18px; align-items: stretch; margin-bottom: 24px; padding: 16px; border-radius: 24px; background: linear-gradient(135deg, #fff7e8, #fffdf8 62%); border: 1px solid #efd8ae; box-shadow: inset 0 1px 0 rgba(255,255,255,.88), 0 14px 34px rgba(62,47,29,.055); }
+.setup-step-badge { display: grid; place-items: center; min-height: 72px; border-radius: 20px; background: linear-gradient(135deg, #ffb84d, #ff8f2a); color: #2b2116; box-shadow: 0 12px 24px rgba(255,143,42,.18); }
+.setup-step-badge span { font-size: 14px; font-weight: 950; letter-spacing: -.02em; }
+.setup-intro-copy { display: grid; align-content: center; gap: 8px; min-width: 0; }
 .setup-intro h1 { margin: 0; font-size: clamp(22px, 2.2vw, 28px); line-height: 1.2; color: #8a4f12; letter-spacing: -0.045em; }
+.setup-subcopy { margin: 0; font-size: 14px; }
 .source-input-heading { display: flex; align-items: center; justify-content: space-between; gap: 14px; margin: 16px 0 8px; }
 .source-input-heading label { margin: 0; }
 .source-input-heading .primary { min-width: 116px; background: linear-gradient(135deg, #3a2a1a, #8a5a22); box-shadow: 0 10px 20px rgba(43,33,22,.14); }
@@ -437,7 +440,7 @@ textarea { min-height: 280px; resize: vertical; line-height: 1.6; }
   .stage-card { padding: 18px; }
   .partner-hero { grid-template-columns: auto 1fr; gap: 12px; padding: 12px; }
   .setup-intro { grid-template-columns: 1fr; padding: 18px; align-items: start; }
-  .setup-intro .eyebrow { width: max-content; }
+  .setup-step-badge { place-items: start; min-height: auto; width: max-content; padding: 10px 14px; }
   .source-input-heading { align-items: stretch; flex-direction: column; }
   .source-input-heading .primary { width: 100%; }
   .publish-kit { grid-template-columns: 1fr; }
